@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Search } from 'lucide-react'
 import GlobalApi from '../_utils/GlobalApi'
 import Image from 'next/image';
-import { useState } from 'react';
+import Link from 'next/link';
 
 function CategorySearch() {
   const [categoryList, setCategoryList] = useState([]);
@@ -36,30 +36,22 @@ function CategorySearch() {
 
         {/* Display List Of Category */}
         <div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6'>
-          {categoryList.length>0?categoryList.map((item) => {
-            const imageUrl = item.Icon[0].url;
-              return (
-                <div key={item.id} className='flex flex-col text-center items-center gap-2 p-5 bg-blue-50 m-2 rounded-lg hover:scale-110 transition-all ease-in-out cursor-pointer mt-10'>
-                  {imageUrl ? (
-                    <Image src={imageUrl}
-                      alt='icon'
-                      width={60}
-                      height={60}
-                    />
-                    ) : (<div>No Image Available</div>)
-                  }
-                  <label className='text-blue-600 text-sm'>{item.Name}</label>
-                </div>
-              );
-          })
-        :
-          [1, 2, 3, 4, 5, 6].map((item) => (
-          <div key={item} className='m-2 h-[120px] w-[130px] bg-slate-200 animate-pulse rounded-lg'>
-          </div>
+          {categoryList.length>0?categoryList.map((item) => (
+            <Link href={'/search/' + item.Name} key={item.id} className='flex flex-col text-center items-center gap-2 p-5 bg-blue-50 m-2 rounded-lg hover:scale-110 transition-all ease-in-out cursor-pointer mt-10'>
+              <Image src={item.Icon[0].url}
+                alt='icon'
+                width={60}
+                height={60}
+              />
+              <label className='text-blue-600 text-sm'>{item.Name}</label>
+            </Link>
           ))
-        }
+            :
+            [1, 2, 3, 4, 5, 6].map((item) => (
+              <div key={item} className='m-2 h-[120px] w-[130px] bg-slate-200 animate-pulse rounded-lg'></div>
+            ))
+          }
         </div>
-
     </div>
   )
 }
